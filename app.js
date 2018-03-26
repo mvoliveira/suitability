@@ -3,6 +3,9 @@ const app = express()
 
 app.set('port', 5000)
 
+app.use(express.static(__dirname + './angular'));
+
+
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 

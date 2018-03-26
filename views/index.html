@@ -1,28 +1,57 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Suitability</title>
-    <script scr="./angular/angular.min.js" type="text/javascript"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  </head>
-  <script type="text/javascript">
-    let Api = axios.create({
-      baseUrl: `https://dev-api.oiwarren.com/api/v2/`
-    })
+<html ng-app="suitability">
+<head>
+  <meta charset="utf-8">
+  <title>Suitability</title>
+  <!-- <script scr="./angular.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
-    let init = {
-      "context": "suitability",
-      "id" : "initial",
-      "answers" : {
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<script type="text/javascript">
+angular.module("suitability", []);
+angular.module("suitability").controller("suitabilityCtrl", function($scope){
+  $scope.app = "Warren"
+  $scope.responses = []
+  $scope.json = {
+    "context": "suitability",
+    "id" : "initial",
+    "answers" : {}
+  }
 
-      }
-    }
-    let response = Api.post(`https://dev-api.oiwarren.com/api/v2/conversation/message`,init)
+  $scope.sendRequest = () => {
+    Api.post(`https://dev-api.oiwarren.com/api/v2/conversation/message`, $scope.json)
+    .then(res => $scope.responses = res.data.messages)
+  }
+})
 
-    response.then(res => console.log(res.data.id))
-  </script>
-  <body>
-    Hello World
-  </body>
+</script>
+<script type="text/javascript">
+let Api = axios.create({
+  baseUrl: `https://dev-api.oiwarren.com/api/v2/`
+})
+
+let init = {
+  "context": "suitability",
+  "id" : "initial",
+  "answers" : {
+
+  }
+}
+Api.post(`https://dev-api.oiwarren.com/api/v2/conversation/message`, init)
+.then(res => {
+  console.log(res)
+  console.log(res.data.messages[0])
+})
+
+</script>
+<body ng-controller="suitabilityCtrl">
+  Hello World
+  {{app}}
+  <div ng-repeat="response in responses">
+    {{response}}
+  </div>
+  <button type="button" name="button" ng-click="sendRequest()"></button>
+
+</body>
 </html>
