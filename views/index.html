@@ -31,19 +31,6 @@ let Api = axios.create({
   baseUrl: `https://dev-api.oiwarren.com/api/v2/`
 })
 
-let init = {
-  "context": "suitability",
-  "id" : "initial",
-  "answers" : {
-
-  }
-}
-Api.post(`https://dev-api.oiwarren.com/api/v2/conversation/message`, init)
-.then(res => {
-  console.log(res)
-  console.log(res.data.messages[0])
-})
-
 </script>
 <body ng-controller="suitabilityCtrl">
   Hello World
